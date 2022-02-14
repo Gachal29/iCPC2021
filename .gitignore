@@ -1,2 +1,2 @@
 dev/*
-cook_app/db.sqlite3
+cook_app/databases/db.sqlite3
