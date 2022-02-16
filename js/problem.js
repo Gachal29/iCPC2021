@@ -1,6 +1,6 @@
 const recipe = [
   {
-    FoodName: "kor moo yang",
+    FoodName: "Kor Moo Yang",
     Ingredients: [
       "oyster sauce",
       "soy sauce",
@@ -306,10 +306,13 @@ const submit = document.querySelector('#submit');
 const result = document.querySelector('#result');
 
 const appendQuestion = () => {
-  const p = document.createElement('p');
-  p.textContent = createQuestion();
-  questionDom.appendChild(p);
-  return p.textContent;
+  const img = document.createElement('img');
+  const question = createQuestion();
+
+  img.setAttribute('src','../media/' + question.split(' ').join('_') + '.jpg');
+
+  questionDom.appendChild(img);
+  return question;
 };
 
 const appendSelector = (food) => {
