@@ -149,6 +149,107 @@
       "Next, using a carving knife or a chef's knife, carve the cooked chicken; slicing the breast meat.",
       "Place the sliced breast meat on top of the rice mound, garnishing it with sliced cucumber and cilantro. Serve with a small bowl of the soup and another small dish filled with the sauce."
     ]
+  },
+  {
+    "FoodName": "Som Tam",
+    "Ingredients": [
+      "papaya",
+      "green bean",
+      "chilli pepper",
+      "garlic",
+      "lime",
+      "fish sauce",
+      "sugar",
+      "peanut",
+      "tomato",
+      "dried shrimp"
+    ],
+    "Recipe": [
+      "Peel and seed papaya and shred it. Put in a bowl.",
+      "Add chilli pepper, garlic, lime, fish sauce and suger. Crush with a pestle."
+    ]
+  },
+  {
+    "FoodName": "Tom Yum Goong",
+    "Ingredients": [
+      "shrimp",
+      "chicken stock",
+      "galangal",
+      "lemongrass",
+      "kaffir lime leave",
+      "mushroom",
+      "chilli pepper",
+      "lime juice",
+      "fish sauce"
+    ],
+    "Recipe": [
+      "Heat the chicken stock and when it boils, add the galangal, lemongrass and kaffir lime leave.",
+      "When it starts to smell, add mushroom and shrimp.",
+      "When the color of the shrimp changes, season with the chilli pepper, nam phrik phao, lime juice and fish sauce."
+    ]
+  },
+  {
+    "FoodName": "Green Curry",
+    "Ingredients": [
+      "chicken",
+      "eggplant",
+      "red bell pepper",
+      "green pepper",
+      "mushroom",
+      "coconut milk",
+      "green curry paste",
+      "sugar",
+      "fish sauce",
+      "vegetable oil"
+    ],
+    "Recipe": [
+      "Cut the eggplant into large chunks. Separate the mushroom.",
+      "Cut the red bell pepper and green pepper into 1cm pieces.",
+      "Cut the chiken into bite size pieces.",
+      "Put the vegetable into the flying pan heated on medium heat, add chicken and stir-fry.When the color changes, add eggplant and mushroom and stir-fry.When all are coated, add green curry paste and stir-fly until all ingridients are well mixed.",
+      "Add the coconut milk and simmer on low heat for 15 minutes.When the chicken is cooked, stir in sugar and fish sauce and simmer on low heat for 5 minutes, then remove from heat."
+    ]
+  },
+  {
+    "FoodName": "Massaman Curry",
+    "Ingredients": [
+      "coconut milk",
+      "onion",
+      "peanut",
+      "cashews",
+      "potato",
+      "bay leave",
+      "star anise",
+      "sugar",
+      "fish sauce",
+      "chilli pepper",
+      "tamarind sauce"
+    ],
+    "Recipe": [
+      ""
+    ]
+  },
+  {
+    "FoodName": "Stir Fried Chicken",
+    "Ingredients": [
+      "chicken",
+      "cornstarch",
+      "chilli pepper",
+      "onion",
+      "cashew",
+      "garlic",
+      "green onion",
+      "fish sauce",
+      "sugar",
+      "chilli sauce",
+      "pepper",
+      "vegetable oil"
+    ],
+    "Recipe": [
+      "Mix fish sauce, sugar, ketchup, chilli sauce and pepper.",
+      "Sprinkle cornstarch on chicken.Fry chilli pepper, chicken and cashwe in hot vegetable oil, then move to plate.",
+      "Stir-fry the garlic in a flying pan until aromatic, then add the onion and stir.",
+      "Add first step ingredients and stir until sticky, then add second step ingredients and green onion and stir."
+    ]
   }
 ]
-
