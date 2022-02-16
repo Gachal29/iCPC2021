@@ -1,0 +1,12 @@
+div {
+  display: flex;
+  flex-direction: column;
+}
+
+#question {
+  font-size: 2rem;
+}
+
+#selector {
+  margin-bottom: 1rem;
+}
