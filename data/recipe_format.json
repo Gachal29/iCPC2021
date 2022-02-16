@@ -1,0 +1,28 @@
+[
+  {
+    "FoodName": "XXXX",
+    "Materials": [
+      "XXX",
+      "XXX",
+      "XXX"
+    ],
+    "Recipe": [
+      "XXXXXX",
+      "XXXXXX",
+      "XXXXXX"
+    ]
+  },
+  {
+    "FoodName": "XXXX",
+    "Materials": [
+      "XXX",
+      "XXX",
+      "XXX"
+    ],
+    "Recipe": [
+      "XXXXXX",
+      "XXXXXX",
+      "XXXXXX"
+    ]
+  }
+]
