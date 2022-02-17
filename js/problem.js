@@ -254,117 +254,128 @@ const recipe = [
   }
 ];
 
-let tmp = [];
-recipe.forEach(v => {
-  tmp.push(...v.Ingredients);
-});
-const ingredients = Array.from(new Set(tmp));
 
-tmp = [];
-recipe.forEach(v => {
-  tmp.push(v.Ingredients);
-});
-const ingredientsBits = tmp.map(v => ingredients.map(i => v.find(g => g == i) ? 1 : 0));
-
-const createQuestion = () => recipe[Math.floor(Math.random() * recipe.length)].FoodName;
-
-const createSelector = (name) => {
-  const bit = ingredientsBits[recipe.findIndex(r => r.FoodName === name)];
-  let dummyNum = 0;
-  bit.forEach(function (b) { if (b == 1) dummyNum++; });
-  dummyNum *= 2;
-
-  let randomSelector = new Array(ingredients.length);
-  for (let i = 0; i < ingredients.length; i++) { randomSelector[i] = 0; }
-
-  for (let i = 0; i < dummyNum; i++) {
-    let r = Math.floor(Math.random() * ingredients.length);
-    if (randomSelector[r] != 1 && bit != 1) {
-      randomSelector[r] = 1;
-    } else {
-      i--;
-    }
-  }
-  return randomSelector;
+window.onload = function() {
+  const button = document.querySelector('button');
+  button.setAttribute('id', 'start');
+  button.setAttribute('onclick', 'changeButton2submit()');
+  button.textContent = 'Start';
 }
 
-const checkDistance = (answer) => {
-  const answerBit = ingredients.map(v => answer.find(a => a === v) ? 1 : 0);
-  return ingredientsBits.map(v => {
-    let tmp = 0;
-    for (let i = 0; i < answerBit.length; i++) {
-      tmp += Math.pow(answerBit[i] - v[i], 2);
-    }
-    return Math.sqrt(tmp);
-  });
-};
+function changeButton2submit() {
+  const startButton = document.querySelector('#start');
+  startButton.setAttribute('id', 'submit');
+  startButton.removeAttribute('onclick');
+  startButton.textContent = 'Submit';
 
-const checkScore = (answer, food) => {
-  const ingredients = recipe[recipe.findIndex(v => v.FoodName === food)].Ingredients;
-  console.log(ingredients)
-  console.log(answer)
-  let num = 0;
-  answer.forEach(v => ingredients.find(i => i == v) ? num++ : num--);
-  return num;
-};
-
-const appendQuestion = () => {
-  const img = document.createElement('img');
-  const question = createQuestion();
-
-  img.setAttribute('src', '../media/' + question.split(' ').join('_') + '.jpg');
-
-  questionDom.appendChild(img);
-  return question;
-};
-
-const appendSelector = (food) => {
-  const bit = createSelector(food);
-  for (let i = 0; i < bit.length; i++) {
-    if (bit[i] === 1) {
-      const label = document.createElement('label');
-      label.textContent = ingredients[i];
-      const input = document.createElement('input');
-      input.setAttribute('type', 'checkbox');
-      input.setAttribute('value', ingredients[i]);
-      label.appendChild(input);
-      selector.appendChild(label);
-    }
-  }
-};
-
-const end = () => {
-  console.log(totalScore);
+  document.body.insertBefore(startButton, document.querySelector('script'));
+  asksQuiz();
 }
-
-const timer = () => {
-  let sec = 1 * 60;
-  setInterval(() => {
-    if (--sec === 0) {
-      end();
-    }
-  }, 1000);
-};
-
-const questionDom = document.querySelector('#question');
-const selector = document.querySelector('#selector');
-const submit = document.querySelector('#submit');
-const result = document.querySelector('#result');
-
-timer();
-
-let food = appendQuestion();
-appendSelector(food);
 
 let totalScore = 0;
-submit.addEventListener('click', () => {
-  const ans = [];
-  Array.from(selector.children).forEach(l => l.children[0].checked ? ans.push(l.children[0].value) : 0);
-  const score = checkScore(ans, food)
-  totalScore += score;
-  console.log(`score: ${score}, totalScore: ${totalScore}`);
+function asksQuiz() {
+  let tmp = [];
+  recipe.forEach(v => { tmp.push(...v.Ingredients); });
+  
+  const ingredients = Array.from(new Set(tmp));
+  tmp = [];
+
+  recipe.forEach(v => { tmp.push(v.Ingredients); });
+
+  const ingredientsBits = tmp.map(v => ingredients.map(i => v.find(g => g == i) ? 1 : 0));
+  const createQuestion = () => recipe[Math.floor(Math.random() * recipe.length)].FoodName;
+
+  const createSelector = (name) => {
+    const bit = ingredientsBits[recipe.findIndex(r => r.FoodName === name)];
+    let dummyNum = 0;
+    bit.forEach(function (b) { if (b == 1) dummyNum++; });
+    dummyNum *= 2;
+
+    let randomSelector = new Array(ingredients.length);
+    for (let i = 0; i < ingredients.length; i++) { randomSelector[i] = 0; }
+
+    for (let i = 0; i < dummyNum; i++) {
+      let r = Math.floor(Math.random() * ingredients.length);
+    
+      if (randomSelector[r] != 1 && bit != 1) {
+        randomSelector[r] = 1;
+      } else {
+        i--;
+      }
+    }
+    return randomSelector;
+  }
+
+  const appendQuestion = () => {
+    const img = document.createElement('img');
+    const question = createQuestion();
+
+    img.setAttribute('src', '../media/' + question.split(' ').join('_') + '.jpg');
+
+    questionDom.appendChild(img);
+    return question;
+  };
+
+  /* create selector */
+  const appendSelector = (food) => {
+    const bit = createSelector(food);
+    for (let i = 0; i < bit.length; i++) {
+      if (bit[i] === 1) {
+        const label = document.createElement('label');
+        label.textContent = ingredients[i];
+      
+        const input = document.createElement('input');
+        input.setAttribute('type', 'checkbox');
+        input.setAttribute('value', ingredients[i]);
+        label.appendChild(input);
+        selector.appendChild(label);
+      }
+    }
+  };
+
+
+  /* View question */
+  const questionDom = document.querySelector('#question');
+  const selector = document.querySelector('#selector');
+
+  let food = appendQuestion();
+  appendSelector(food);
+  
+  const submit = document.querySelector('#submit');
+  submit.addEventListener('click', () => {
+    if (submit.textContent == 'Submit') {
+      const checkScore = (answer, food) => {
+        const ingredients = recipe[recipe.findIndex(v => v.FoodName === food)].Ingredients;
+        let num = 0;
+        answer.forEach(v => ingredients.find(i => i == v) ? num++ : num--);
+        return num;
+      }
+
+      const ans = [];
+      Array.from(selector.children).forEach(l => l.children[0].checked ? ans.push(l.children[0].value) : 0);
+    
+      const score = checkScore(ans, food)
+      totalScore += score;
+
+      console.log(`score: ${score}, totalScore: ${totalScore}`);
+
+      const submitButton = document.querySelector('#submit');
+      submitButton.setAttribute('onclick', 'nextProblem()');
+      submitButton.textContent = 'Next';
+    }
+  });
+}
+
+function nextProblem() {
+  const questionDom = document.querySelector('#question');
+  const selector = document.querySelector('#selector');
+
   questionDom.innerHTML = '';
   selector.innerHTML = '';
-  food = appendQuestion();
-  appendSelector(food);
-});
+  
+  asksQuiz();
+
+  const nextButton = document.querySelector('#submit');
+  nextButton.removeAttribute('onclick');
+  nextButton.textContent = 'Submit';
+}
