@@ -271,13 +271,13 @@ const createQuestion = () => recipe[Math.floor(Math.random() * recipe.length)].F
 const createSelector = (name) => {
   const bit = ingredientsBits[recipe.findIndex(r => r.FoodName === name)];
   let dummyNum = 0;
-  bit.forEach(function(b) {if(b == 1) dummyNum++;});
+  bit.forEach(function (b) { if (b == 1) dummyNum++; });
   dummyNum *= 2;
 
   let randomSelector = new Array(ingredients.length);
-  for (let i=0; i<ingredients.length; i++) { randomSelector[i] = 0; }
+  for (let i = 0; i < ingredients.length; i++) { randomSelector[i] = 0; }
 
-  for (let i=0; i<dummyNum; i++) {
+  for (let i = 0; i < dummyNum; i++) {
     let r = Math.floor(Math.random() * ingredients.length);
     if (randomSelector[r] != 1 && bit != 1) {
       randomSelector[r] = 1;
@@ -301,23 +301,18 @@ const checkDistance = (answer) => {
 
 const checkScore = (answer, food) => {
   const ingredients = recipe[recipe.findIndex(v => v.FoodName === food)].Ingredients;
-  console.log(ingredients);
+  console.log(ingredients)
   console.log(answer)
   let num = 0;
-  answer.forEach(v => ingredients.find(i => i == v) ? num++ : 0);
-  return num / ingredients.length;
+  answer.forEach(v => ingredients.find(i => i == v) ? num++ : num--);
+  return num;
 };
-
-const questionDom = document.querySelector('#question');
-const selector = document.querySelector('#selector');
-const submit = document.querySelector('#submit');
-const result = document.querySelector('#result');
 
 const appendQuestion = () => {
   const img = document.createElement('img');
   const question = createQuestion();
 
-  img.setAttribute('src','../media/' + question.split(' ').join('_') + '.jpg');
+  img.setAttribute('src', '../media/' + question.split(' ').join('_') + '.jpg');
 
   questionDom.appendChild(img);
   return question;
@@ -338,22 +333,38 @@ const appendSelector = (food) => {
   }
 };
 
-const food = appendQuestion();
+const end = () => {
+  console.log(totalScore);
+}
+
+const timer = () => {
+  let sec = 1 * 60;
+  setInterval(() => {
+    if (--sec === 0) {
+      end();
+    }
+  }, 1000);
+};
+
+const questionDom = document.querySelector('#question');
+const selector = document.querySelector('#selector');
+const submit = document.querySelector('#submit');
+const result = document.querySelector('#result');
+
+timer();
+
+let food = appendQuestion();
 appendSelector(food);
 
+let totalScore = 0;
 submit.addEventListener('click', () => {
-  const input = document.querySelectorAll('input');
-  const tmp = [];
-  for (const i of input) {
-    if (i.checked) tmp.push(i.value);
-  }
-  const distance = checkDistance(tmp);
-  
-  const score = checkScore(tmp, food);
-
-  const p = document.createElement('p');
-  p.textContent = score.toString();
-
-  result.appendChild(p);
-
+  const ans = [];
+  Array.from(selector.children).forEach(l => l.children[0].checked ? ans.push(l.children[0].value) : 0);
+  const score = checkScore(ans, food)
+  totalScore += score;
+  console.log(`score: ${score}, totalScore: ${totalScore}`);
+  questionDom.innerHTML = '';
+  selector.innerHTML = '';
+  food = appendQuestion();
+  appendSelector(food);
 });
