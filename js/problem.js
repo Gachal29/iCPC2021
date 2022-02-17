@@ -268,6 +268,7 @@ function changeButton2submit() {
   startButton.removeAttribute('onclick');
   startButton.textContent = 'Submit';
 
+  
   asksQuiz();
 }
 
