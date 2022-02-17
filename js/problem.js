@@ -260,6 +260,14 @@ window.onload = function() {
   button.setAttribute('id', 'start');
   button.setAttribute('onclick', 'changeButton2submit()');
   button.textContent = 'Start';
+
+  localStorage.setItem('imgLink', '');
+  localStorage.setItem('FoodName', '');
+  localStorage.setItem('totalScore', 0);
+}
+
+function timer(sec, callback) {
+  setTimeout(callback, sec * 1000);
 }
 
 function changeButton2submit() {
@@ -268,11 +276,13 @@ function changeButton2submit() {
   startButton.removeAttribute('onclick');
   startButton.textContent = 'Submit';
 
+  timer(10, () => {
+    viewResult();
+  });
   
   asksQuiz();
 }
 
-let totalScore = 0;
 function asksQuiz() {
   let tmp = [];
   recipe.forEach(v => { tmp.push(...v.Ingredients); });
@@ -283,6 +293,7 @@ function asksQuiz() {
   recipe.forEach(v => { tmp.push(v.Ingredients); });
 
   const ingredientsBits = tmp.map(v => ingredients.map(i => v.find(g => g == i) ? 1 : 0));
+  
   const createQuestion = () => recipe[Math.floor(Math.random() * recipe.length)].FoodName;
 
   const createSelector = (name) => {
@@ -308,9 +319,18 @@ function asksQuiz() {
 
   const appendQuestion = () => {
     const img = document.createElement('img');
-    const question = createQuestion();
 
-    img.setAttribute('src', '../media/' + question.split(' ').join('_') + '.jpg');
+    let question = '';
+    while(true) {
+      question = createQuestion();
+      if(question != localStorage.getItem('FoodName')) {
+        localStorage.setItem('FoodName', question);
+        break;
+      }
+    }
+
+    localStorage.setItem('imgLink', '../media/' + question.split(' ').join('_') + '.jpg');
+    img.setAttribute('src', localStorage.getItem('imgLink'));
 
     questionDom.appendChild(img);
     return question;
@@ -343,6 +363,8 @@ function asksQuiz() {
   appendSelector(food);
   pElem.textContent = food;
   
+
+  /* Answer */
   const submit = document.querySelector('#submit');
   submit.addEventListener('click', () => {
     if (submit.textContent == 'Submit') {
@@ -357,9 +379,16 @@ function asksQuiz() {
       Array.from(selector.children).forEach(l => l.children[0].checked ? ans.push(l.children[0].value) : 0);
     
       const score = checkScore(ans, food)
-      totalScore += score;
+      const totalScore = parseInt(localStorage.getItem('totalScore'));
+      localStorage.setItem('totalScore', totalScore + score);
 
-      console.log(`score: ${score}, totalScore: ${totalScore}`);
+      console.log(`score: ${score}, totalScore: ${localStorage.getItem('totalScore')}`);
+      
+      selector.innerHTML = '';
+
+      const answerImg = document.createElement('img');
+      answerImg.setAttribute('src', localStorage.getItem('imgLink'));
+      selector.appendChild(answerImg);
 
       const submitButton = document.querySelector('#submit');
       submitButton.setAttribute('onclick', 'nextProblem()');
@@ -380,4 +409,27 @@ function nextProblem() {
   const nextButton = document.querySelector('#submit');
   nextButton.removeAttribute('onclick');
   nextButton.textContent = 'Submit';
+}
+
+function viewResult() {
+  const containerElem = document.querySelector('#container');
+  containerElem.innerHTML = '';
+
+  const containerTitle = document.createElement('H1');
+  containerTitle.setAttribute('id', 'containerTitle');
+  containerTitle.textContent = 'TOTAL SCORE';
+  containerElem.appendChild(containerTitle);
+
+  const result = document.createElement('H2');
+  result.setAttribute('id', 'result');
+  result.textContent = localStorage.getItem('totalScore');
+  result.textContent += '点';
+  containerElem.appendChild(result);
+
+  const topLink = 'https://nescal29.github.io/iCPC2021/html/top.html'
+  const finish = document.createElement('a');
+  finish.setAttribute('id', 'start');
+  finish.setAttribute('href', topLink)
+  finish.textContent = 'FINISH';
+  containerElem.appendChild(finish);
 }
