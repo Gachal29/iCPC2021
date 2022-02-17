@@ -268,7 +268,6 @@ function changeButton2submit() {
   startButton.removeAttribute('onclick');
   startButton.textContent = 'Submit';
 
-  document.body.insertBefore(startButton, document.querySelector('script'));
   asksQuiz();
 }
 
@@ -335,11 +334,13 @@ function asksQuiz() {
 
 
   /* View question */
+  const pElem = document.querySelector('p');
   const questionDom = document.querySelector('#question');
   const selector = document.querySelector('#selector');
 
   let food = appendQuestion();
   appendSelector(food);
+  pElem.textContent = food;
   
   const submit = document.querySelector('#submit');
   submit.addEventListener('click', () => {
