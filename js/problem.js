@@ -292,29 +292,15 @@ function asksQuiz() {
 
   recipe.forEach(v => { tmp.push(v.Ingredients); });
 
+  console.log('tmp\n' + tmp);
   const ingredientsBits = tmp.map(v => ingredients.map(i => v.find(g => g == i) ? 1 : 0));
+  console.log('ingredientsBits\n' + ingredientsBits);
   
   const createQuestion = () => recipe[Math.floor(Math.random() * recipe.length)].FoodName;
 
   const createSelector = (name) => {
     const bit = ingredientsBits[recipe.findIndex(r => r.FoodName === name)];
-    let dummyNum = 0;
-    bit.forEach(function (b) { if (b == 1) dummyNum++; });
-    dummyNum *= 2;
-
-    let randomSelector = new Array(ingredients.length);
-    for (let i = 0; i < ingredients.length; i++) { randomSelector[i] = 0; }
-
-    for (let i = 0; i < dummyNum; i++) {
-      let r = Math.floor(Math.random() * ingredients.length);
-    
-      if (randomSelector[r] != 1 && bit != 1) {
-        randomSelector[r] = 1;
-      } else {
-        i--;
-      }
-    }
-    return randomSelector;
+    return bit;
   }
 
   const appendQuestion = () => {
@@ -337,8 +323,9 @@ function asksQuiz() {
   };
 
   /* create selector */
+  let bit = [];
   const appendSelector = (food) => {
-    const bit = createSelector(food);
+    bit = createSelector(food);
     for (let i = 0; i < bit.length; i++) {
       if (bit[i] === 1) {
         const label = document.createElement('label');
@@ -352,7 +339,36 @@ function asksQuiz() {
       }
     }
   };
+  
+  let dummyNum = 0;
+  bit.forEach(function (b) { if (b == 1) dummyNum++; });
+  dummyNum *= 2;
 
+  let randomSelector = new Array(ingredients.length);
+  for (let i = 0; i < ingredients.length; i++) { randomSelector[i] = 0; }
+
+  for (let i = 0; i < dummyNum; i++) {
+    let r = Math.floor(Math.random() * ingredients.length);
+    
+    if (randomSelector[r] != 1 && bit[r] != 1) {
+      randomSelector[r] = 1;
+    } else {
+      i--;
+    }
+  }
+  
+  for (let i = 0; i < randomSelector.length; i++) {
+    if (randomSelector[i] === 1) {
+      const label = document.createElement('label');
+      label.textContent = ingredients[i];
+      
+      const input = document.createElement('input');
+      input.setAttribute('type', 'checkbox');
+      input.setAttribute('value', ingredients[i]);
+      label.appendChild(input);
+      selector.appendChild(label);
+    }
+  }
 
   /* View question */
   const pElem = document.querySelector('p');
