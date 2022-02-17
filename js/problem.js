@@ -270,14 +270,22 @@ const createQuestion = () => recipe[Math.floor(Math.random() * recipe.length)].F
 
 const createSelector = (name) => {
   const bit = ingredientsBits[recipe.findIndex(r => r.FoodName === name)];
-  let randomSelect = recipe[recipe.findIndex(r => r.FoodName === name)].Ingredients.length * 2 - recipe[recipe.findIndex(r => r.FoodName === name)].Ingredients.length;
-  return bit.map(b => {
-    if (b === 1 || randomSelect < recipe[recipe.findIndex(r => r.FoodName === name)].Ingredients.length * 2) {
-      randomSelect++;
-      return 1;
+  let dummyNum = 0;
+  bit.forEach(function(b) {if(b == 1) dummyNum++;});
+  dummyNum *= 2;
+
+  let randomSelector = new Array(ingredients.length);
+  for (let i=0; i<ingredients.length; i++) { randomSelector[i] = 0; }
+
+  for (let i=0; i<dummyNum; i++) {
+    let r = Math.floor(Math.random() * ingredients.length);
+    if (randomSelector[r] != 1 && bit != 1) {
+      randomSelector[r] = 1;
+    } else {
+      i--;
     }
-    return 0;
-  });
+  }
+  return randomSelector;
 }
 
 const checkDistance = (answer) => {
