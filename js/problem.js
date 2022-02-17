@@ -276,7 +276,7 @@ function changeButton2submit() {
   startButton.removeAttribute('onclick');
   startButton.textContent = 'Submit';
 
-  timer(10, () => {
+  timer(30, () => {
     viewResult();
   });
   
@@ -292,9 +292,7 @@ function asksQuiz() {
 
   recipe.forEach(v => { tmp.push(v.Ingredients); });
 
-  console.log('tmp\n' + tmp);
   const ingredientsBits = tmp.map(v => ingredients.map(i => v.find(g => g == i) ? 1 : 0));
-  console.log('ingredientsBits\n' + ingredientsBits);
   
   const createQuestion = () => recipe[Math.floor(Math.random() * recipe.length)].FoodName;
 
@@ -402,9 +400,11 @@ function asksQuiz() {
       
       selector.innerHTML = '';
 
-      const answerImg = document.createElement('img');
-      answerImg.setAttribute('src', localStorage.getItem('imgLink'));
-      selector.appendChild(answerImg);
+      const answerNum = document.createElement('h3');
+      answerNum.setAttribute('id', 'start');
+      answerNum.textContent = score;
+      answerNum.textContent += '点';
+      selector.appendChild(answerNum);
 
       const submitButton = document.querySelector('#submit');
       submitButton.setAttribute('onclick', 'nextProblem()');
