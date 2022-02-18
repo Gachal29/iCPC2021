@@ -276,7 +276,7 @@ function changeButton2submit() {
   startButton.removeAttribute('onclick');
   startButton.textContent = 'Submit';
 
-  timer(30, () => {
+  timer(180, () => {
     viewResult();
   });
   
